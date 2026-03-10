@@ -64,8 +64,23 @@ ReduceBy Key
    k1,v2   -----> v1,v2 > v1+v2 
 
    left_amount, left_count = left_value is valid when left_value is a tuple.
+ ### map partition
 
-   
+ ## connecting to GCS
+* download gcs via brew
+* download haddop connector
+* connect through config
+* create a context then create a spark session
+
+## Creating a local spark cluster
+* create a local cluster
+* turning the notebook into a cluster
+
+
+
+## creating cloud cluster
+
+ 
 
 
 
