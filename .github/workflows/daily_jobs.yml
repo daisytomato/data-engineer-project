@@ -1,0 +1,44 @@
+name: Daily Job Digest
+
+on:
+  schedule:
+    # 9:00 AM PT = 17:00 UTC (PST) / 16:00 UTC (PDT)
+    # Using 17:00 UTC to cover PST; GitHub Actions may be ~1-2 min late
+    - cron: "0 17 * * *"
+  workflow_dispatch:   # allow manual trigger from GitHub UI
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run job pipeline
+        env:
+          RAPIDAPI_KEY:               ${{ secrets.RAPIDAPI_KEY }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_SHEET_ID:            ${{ secrets.GOOGLE_SHEET_ID }}
+          GMAIL_USER:                 ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASS:             ${{ secrets.GMAIL_APP_PASS }}
+          NOTIFY_EMAIL:               ${{ secrets.NOTIFY_EMAIL }}
+        run: python run_pipeline.py
+
+      - name: Upload jobs artifact (for debugging)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jobs-json-${{ github.run_id }}
+          path: jobs.json
+          retention-days: 7
