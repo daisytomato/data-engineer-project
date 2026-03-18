@@ -79,12 +79,11 @@ def write_to_sheet(jobs: list[dict]) -> str:
                     },
                     "cell": {
                         "userEnteredFormat": {
-                            "textFormat": {"bold": True},
+                            "textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
                             "backgroundColor": {"red": 0.2, "green": 0.4, "blue": 0.8},
-                            "foregroundColor": {"red": 1, "green": 1, "blue": 1},
                         }
                     },
-                    "fields": "userEnteredFormat(textFormat,backgroundColor,foregroundColor)",
+                    "fields": "userEnteredFormat(textFormat,backgroundColor)",
                 }
             },
             {
