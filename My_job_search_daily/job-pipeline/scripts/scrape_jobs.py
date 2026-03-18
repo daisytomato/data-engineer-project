@@ -59,7 +59,7 @@ def normalize_job(job: dict, searched_role: str) -> dict:
     else:
         posted_str = "N/A"
 
-    description = job.get("job_description", "")
+    description = job.get("job_description") or ""
     if len(description) > 2000:
         description = description[:2000] + "..."
 
